@@ -129,3 +129,9 @@ dmypy.json
 .pyre/
 
 .vscode/
+
+logs/
+output/
+output_gan/
+imgs/train
+gan_training_checkpoints/

@@ -11,6 +11,7 @@ class TruchetPattern:
         self.bg_color = bg_color
         self.fg_color = fg_color
         self.kind = kind
+        self.rand_succession = []
 
     def create_simple_tile(self) -> Image:
         tile_img = Image.new("RGB", (self.tile_size, self.tile_size))
@@ -48,4 +49,5 @@ class TruchetPattern:
                 r = rd.randint(0,3)
                 base_tile = base_tile.rotate(90 * r)
                 img.paste(base_tile, offset)
+                self.rand_succession.append(r)
         return img
