@@ -224,7 +224,6 @@ log_path = './logs'
 
 
 train(train_dataset, EPOCHS)
-
 make_animation()
 checkpoint.restore(tf.train.latest_checkpoint(checkpoint_dir))
 
