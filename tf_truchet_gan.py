@@ -41,7 +41,7 @@ def plot_history(d1_hist, d2_hist, g_hist):
 	pyplot.savefig('plot_line_plot_loss.png')
 	pyplot.close()
 
-size = 64
+size = 32
 
 train_images = read_images("/imgs/train/")
 train_images = train_images.reshape(train_images.shape[0], size, size, 1).astype('float32')
@@ -58,24 +58,24 @@ train_dataset = tf.data.Dataset.from_tensor_slices(train_images).shuffle(BUFFER_
 def make_generator_model():
     model = tf.keras.Sequential()
     
-    model.add(layers.Dense(int(size/4)*int(size/4)*256, use_bias=False, input_shape=(100,)))
+    model.add(layers.Dense(8*8*256, use_bias=False, input_shape=(100,))) # 8x8
     model.add(layers.BatchNormalization())
     model.add(layers.LeakyReLU())
 
-    model.add(layers.Reshape((int(size/4), int(size/4), 256)))
-    assert model.output_shape == (None, int(size/4), int(size/4), 256)  # Note: None is the batch size
+    model.add(layers.Reshape((8, 8, 256))) 
+    assert model.output_shape == (None, 8, 8, 256)  # Note: None is the batch size
 
-    model.add(layers.Conv2DTranspose(128, (5, 5), strides=(1, 1), padding='same', use_bias=False))
-    assert model.output_shape == (None, int(size/4), int(size/4), 128)
+    model.add(layers.Conv2DTranspose(128, (5, 5), strides=(1, 1), padding='same', use_bias=False)) # 8x8
+    assert model.output_shape == (None, 8, 8, 128)
     model.add(layers.BatchNormalization())
     model.add(layers.LeakyReLU())
 
-    model.add(layers.Conv2DTranspose(64, (5, 5), strides=(2, 2), padding='same', use_bias=False))
-    assert model.output_shape == (None, int(size/2), int(size/2), 64)
+    model.add(layers.Conv2DTranspose(64, (5, 5), strides=(2, 2), padding='same', use_bias=False)) # 16x16
+    assert model.output_shape == (None, 16, 16, 64)
     model.add(layers.BatchNormalization())
     model.add(layers.LeakyReLU())
 
-    model.add(layers.Conv2DTranspose(1, (5, 5), strides=(2, 2), padding='same', use_bias=False, activation='tanh'))
+    model.add(layers.Conv2DTranspose(1, (5, 5), strides=(2, 2), padding='same', use_bias=False, activation='tanh')) # 32x32
     assert model.output_shape == (None, size, size, 1)
 
     return model
@@ -223,9 +223,9 @@ log_path = './logs'
 # tensorboard --logdir logs
 
 
-# train(train_dataset, EPOCHS)
+train(train_dataset, EPOCHS)
 
-# make_animation()
+make_animation()
 checkpoint.restore(tf.train.latest_checkpoint(checkpoint_dir))
 
 # feed random image into generator

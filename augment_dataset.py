@@ -9,13 +9,12 @@ import random as rd
 def main():
   
     n_samples = 1000
-    how_many_tiles = 8
+    how_many_tiles = 4
     of_size = 8
     img_mode = "L"
-
-    # for i in range(int(n_samples*0.80)):
+    truchet_pattern = truchet.TruchetPattern(how_many_tiles, of_size, 'white', 'black','simple')
     for i in range(int(n_samples)):
-        img = truchet.paint_a_truchet(how_many_tiles, of_size)
+        img = truchet_pattern.paint_a_truchet()
         if img.mode != img_mode:
             img = img.convert(img_mode)
 
