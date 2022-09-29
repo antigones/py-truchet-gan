@@ -135,3 +135,4 @@ output/
 output_gan/
 imgs/train
 gan_training_checkpoints/
+output_1000/
